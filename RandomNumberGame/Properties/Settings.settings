@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RandomNumberGame.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="FontSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100</Value>
-    </Setting>
     <Setting Name="MinValue" Type="System.String" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>

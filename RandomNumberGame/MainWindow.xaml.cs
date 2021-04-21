@@ -37,11 +37,9 @@ namespace RandomNumberGame
             TbxMinValue.Text = mSettings.MinValue;
             TbxMaxValue.Text = mSettings.MaxValue;
             TbxMaxTryCount.Text = mSettings.MaxTryCount;
-            TbkResult.FontSize = mSettings.FontSize;
 
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
-            this.MouseWheel += MainWindow_MouseWheel;
 
             TbkResult.SizeChanged += TbkResult_SizeChanged;
             ContentPanel.SizeChanged += TbkResult_SizeChanged;
@@ -86,31 +84,7 @@ namespace RandomNumberGame
                 mSettings.MinValue = TbxMinValue.Text;
                 mSettings.MaxValue = TbxMaxValue.Text;
                 mSettings.MaxTryCount = TbxMaxTryCount.Text;
-                mSettings.FontSize = (int)TbkResult.FontSize;
                 mSettings.Save();
-            }
-            catch (Exception ex)
-            {
-                ShowMessage("操作异常：" + ex);
-            }
-        }
-
-        private void MainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            try
-            {
-                // 按下左Ctrl键时，滚动滚轮放大缩小文本框的字体
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    if (e.Delta > 0)
-                    {
-                        TbkResult.FontSize += 2;
-                    }
-                    else if (e.Delta < 0)
-                    {
-                        TbkResult.FontSize -= 2;
-                    }
-                }
             }
             catch (Exception ex)
             {
