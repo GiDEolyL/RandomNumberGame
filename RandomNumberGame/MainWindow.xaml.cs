@@ -25,6 +25,7 @@ namespace RandomNumberGame
         private int _randomNumber;
         private int _maxTryCount;
         private int _tryCount;
+        private DateTime _startTime;
 
         public MainWindow()
         {
@@ -130,6 +131,7 @@ namespace RandomNumberGame
                 PanelInput.IsEnabled = true;
                 TbxInput.Focus();
                 PanelStartPlay.IsEnabled = false;
+                _startTime = DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -172,7 +174,8 @@ namespace RandomNumberGame
             tbkTryCount.Text = string.Format("已猜{0}次", _tryCount);
             if (inputValue == _randomNumber)
             {
-                var message = string.Format("您猜对了！正确答案是 {0}", _randomNumber);
+                var ts = DateTime.Now.Subtract(_startTime).TotalSeconds;
+                var message = string.Format("您猜对了！正确答案是{0}，共耗时{1}秒。", _randomNumber, ts);
                 ShowMessage(message);
                 //TbkResult.Text = resultText + Properties.Resources.TextIsRight;
                 GameEnd();
