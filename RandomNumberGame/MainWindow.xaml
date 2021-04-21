@@ -4,9 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomNumberGame"
-        mc:Ignorable="d"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0">
+            <TextBlock Text="最小数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
+            <TextBox x:Name="TbxMinValue" Style="{StaticResource TextBoxStyle1}" Width="80"></TextBox>
+            <TextBlock Text="最小数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
+            <TextBox x:Name="TbxMaxValue" Style="{StaticResource TextBoxStyle1}" Width="80"></TextBox>
+            <TextBlock Text="最大次数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
+            <TextBox x:Name="TbxMaxTryCount" Style="{StaticResource TextBoxStyle1}" Width="80"></TextBox>
+            <Button x:Name="BtnStartPlay" Content="开始游戏" Click="BtnStartPlay_OnClick" Style="{StaticResource ButtonStyle1}"></Button>
+        </StackPanel>
+        <StackPanel x:Name="PanelInput" Orientation="Horizontal" Grid.Row="1" Margin="0" IsEnabled="False">
+            <TextBlock Text="请输入：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
+            <TextBox x:Name="TbxInput" Style="{StaticResource TextBoxStyle1}" Width="120"></TextBox>
+            <Button x:Name="BtnSubmit" Content="确定" Click="BtnSubmit_OnClick " Style="{StaticResource ButtonStyle1}" IsDefault="True"></Button>
+        </StackPanel>
+        <TextBlock x:Name="TbkResult" Grid.Row="2" FontSize="100" Style="{StaticResource TextBlockStyle3}"></TextBlock>
     </Grid>
 </Window>

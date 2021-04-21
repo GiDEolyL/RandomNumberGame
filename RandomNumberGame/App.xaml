@@ -4,6 +4,37 @@
              xmlns:local="clr-namespace:RandomNumberGame"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Button" x:Key="ButtonStyle1">
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Padding" Value="24,4"/>
+        </Style>
+        <Style TargetType="ListBox" x:Key="ListBoxStyle1">
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle1">
+            <Setter Property="Margin" Value="6"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle2" BasedOn="{StaticResource TextBlockStyle1}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle3" BasedOn="{StaticResource TextBlockStyle1}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="TextBoxStyle1">
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+        <Style TargetType="ComboBox" x:Key="ComboBoxStyle1">
+            <Setter Property="Margin" Value="6"/>
+        </Style>
     </Application.Resources>
 </Application>
