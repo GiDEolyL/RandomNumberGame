@@ -42,6 +42,26 @@ namespace RandomNumberGame
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
             this.MouseWheel += MainWindow_MouseWheel;
+
+            TbkResult.SizeChanged += TbkResult_SizeChanged;
+            ContentPanel.SizeChanged += TbkResult_SizeChanged;
+        }
+
+        private void TbkResult_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(TbkResult.Text))
+                {
+                    return;
+                }
+
+                var change = Math.Min(ContentPanel.ActualHeight / TbkResult.ActualHeight, ContentPanel.ActualWidth / TbkResult.ActualWidth) * 0.9;
+                TbkResult.FontSize = (int)(change * TbkResult.FontSize);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -52,7 +72,7 @@ namespace RandomNumberGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show("加载异常：" + ex.Message);
+                ShowMessage("加载异常：" + ex.Message);
             }
         }
 
@@ -71,7 +91,7 @@ namespace RandomNumberGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show("操作异常：" + ex);
+                ShowMessage("操作异常：" + ex);
             }
         }
 
@@ -94,7 +114,7 @@ namespace RandomNumberGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show("操作异常：" + ex);
+                ShowMessage("操作异常：" + ex);
             }
         }
 
@@ -106,7 +126,7 @@ namespace RandomNumberGame
                 int min;
                 if (string.IsNullOrEmpty((strMin)) || !int.TryParse(strMin, out min))
                 {
-                    MessageBox.Show("请输入正确的最小值");
+                    ShowMessage("请输入正确的最小值");
                     TbxMinValue.Focus();
                     return;
                 }
@@ -115,7 +135,7 @@ namespace RandomNumberGame
                 int max;
                 if (string.IsNullOrEmpty((strMax)) || !int.TryParse(strMax, out max))
                 {
-                    MessageBox.Show("请输入正确的最大值");
+                    ShowMessage("请输入正确的最大值");
                     TbxMinValue.Focus();
                     return;
                 }
@@ -125,7 +145,7 @@ namespace RandomNumberGame
 
                 if (!string.IsNullOrEmpty((strMaxTryCount)) && !int.TryParse(strMaxTryCount, out maxTryCount))
                 {
-                    MessageBox.Show("请输入正确的最大次数");
+                    ShowMessage("请输入正确的最大次数");
                     TbxMaxTryCount.Focus();
                     return;
                 }
@@ -139,7 +159,7 @@ namespace RandomNumberGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show("操作异常：" + ex);
+                ShowMessage("操作异常：" + ex);
             }
         }
 
@@ -156,7 +176,7 @@ namespace RandomNumberGame
                 int inputValue;
                 if (string.IsNullOrEmpty((tbxInputText)) || !int.TryParse(tbxInputText, out inputValue))
                 {
-                    MessageBox.Show("请输入正确的数值");
+                    ShowMessage("请输入正确的数值");
                     TbxInput.Focus();
                     return;
                 }
@@ -167,7 +187,7 @@ namespace RandomNumberGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show("操作异常：" + ex);
+                ShowMessage("操作异常：" + ex);
             }
         }
 
@@ -175,9 +195,12 @@ namespace RandomNumberGame
         {
             var resultText = inputValue + "：";
             _tryCount++;
+            tbkTryCount.Text = string.Format("已猜{0}次", _tryCount);
             if (inputValue == _randomNumber)
             {
-                TbkResult.Text = resultText + Properties.Resources.TextIsRight;
+                var message = string.Format("您猜对了！正确答案是 {0}", _randomNumber);
+                ShowMessage(message);
+                //TbkResult.Text = resultText + Properties.Resources.TextIsRight;
                 GameEnd();
             }
             else
@@ -193,16 +216,24 @@ namespace RandomNumberGame
 
                 if (_maxTryCount > 0 && _tryCount >= _maxTryCount)
                 {
-                    MessageBox.Show("超出最大次数");
+                    var message = string.Format("很遗憾，游戏结束。正确答案是 {0}", _randomNumber);
+                    ShowMessage(message);
                     GameEnd();
                 }
             }
+        }
+
+        private void ShowMessage(string message)
+        {
+            MessageBox.Show(this, message);
         }
 
         private void GameEnd()
         {
             PanelInput.IsEnabled = false;
             PanelStartPlay.IsEnabled = true;
+            TbkResult.Text = "";
+            tbkTryCount.Text = "";
         }
     }
 }
