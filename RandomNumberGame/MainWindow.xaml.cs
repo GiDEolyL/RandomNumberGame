@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Speech.Recognition;
+using NLog;
 
 namespace RandomNumberGame
 {
@@ -20,12 +22,14 @@ namespace RandomNumberGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
         private static Properties.Settings mSettings = Properties.Settings.Default;
         private readonly Random _random = new Random();
         private int _randomNumber;
         private int _maxTryCount;
         private int _tryCount;
         private DateTime _startTime;
+        private SpeechRecognitionEngine _recognizer;
 
         public MainWindow()
         {
@@ -68,6 +72,29 @@ namespace RandomNumberGame
             try
             {
                 TbxMinValue.Focus();
+
+                _recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("zh-CN"));
+                _recognizer.LoadGrammar(new DictationGrammar());
+                _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(recognizer_SpeechRecognized);
+                _recognizer.SetInputToDefaultAudioDevice();
+            }
+            catch (Exception ex)
+            {
+                ShowMessage("加载异常：" + ex.Message);
+            }
+        }
+
+        private void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            try
+            {
+                var text = e.Result.Text;
+                TbxInput.Text = text;
+                int value = 0;
+                if (int.TryParse(text, out value))
+                {
+                    CheckInputValue(value);
+                }
             }
             catch (Exception ex)
             {
@@ -86,6 +113,12 @@ namespace RandomNumberGame
                 mSettings.MaxValue = TbxMaxValue.Text;
                 mSettings.MaxTryCount = TbxMaxTryCount.Text;
                 mSettings.Save();
+
+                if (_recognizer != null)
+                {
+                    _recognizer.Dispose();
+                    _recognizer = null;
+                }
             }
             catch (Exception ex)
             {
@@ -132,6 +165,7 @@ namespace RandomNumberGame
                 TbxInput.Focus();
                 PanelStartPlay.IsEnabled = false;
                 _startTime = DateTime.Now;
+                _recognizer.RecognizeAsync(RecognizeMode.Multiple);
             }
             catch (Exception ex)
             {
@@ -211,6 +245,7 @@ namespace RandomNumberGame
             PanelStartPlay.IsEnabled = true;
             TbkResult.Text = "";
             tbkTryCount.Text = "";
+            _recognizer?.RecognizeAsyncCancel();
         }
     }
 }
