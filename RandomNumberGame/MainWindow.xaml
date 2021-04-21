@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RandomNumberGame"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="12">
+    <Grid Margin="6">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -15,7 +15,7 @@
         <StackPanel Orientation="Horizontal" Margin="0">
             <TextBlock Text="最小数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
             <TextBox x:Name="TbxMinValue" Style="{StaticResource TextBoxStyle1}" Width="80"></TextBox>
-            <TextBlock Text="最小数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
+            <TextBlock Text="最大数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
             <TextBox x:Name="TbxMaxValue" Style="{StaticResource TextBoxStyle1}" Width="80"></TextBox>
             <TextBlock Text="最大次数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
             <TextBox x:Name="TbxMaxTryCount" Style="{StaticResource TextBoxStyle1}" Width="80"></TextBox>
