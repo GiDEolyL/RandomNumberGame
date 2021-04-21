@@ -20,6 +20,7 @@ namespace RandomNumberGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static Properties.Settings mSettings = Properties.Settings.Default;
         private readonly Random _random = new Random();
         private int _randomNumber;
         private int _maxTryCount;
@@ -29,12 +30,57 @@ namespace RandomNumberGame
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            this.Closing += MainWindow_Closing;
+            this.MouseWheel += MainWindow_MouseWheel;
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                mSettings.MinValue = TbxMinValue.Text;
+                mSettings.MaxValue = TbxMaxValue.Text;
+                mSettings.MaxTryCount = TbxMaxTryCount.Text;
+                mSettings.FontSize = (int)TbkResult.FontSize;
+                mSettings.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("操作异常：" + ex);
+            }
+        }
+
+        private void MainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            try
+            {
+                // 按下左Ctrl键时，滚动滚轮放大缩小文本框的字体
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    if (e.Delta > 0)
+                    {
+                        TbkResult.FontSize += 2;
+                    }
+                    else if (e.Delta < 0)
+                    {
+                        TbkResult.FontSize -= 2;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("操作异常：" + ex);
+            }
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
+                TbxMinValue.Text = mSettings.MinValue;
+                TbxMaxValue.Text = mSettings.MaxValue;
+                TbxMaxTryCount.Text = mSettings.MaxTryCount;
+                TbkResult.FontSize = mSettings.FontSize;
                 TbxMinValue.Focus();
             }
             catch (Exception ex)
@@ -66,8 +112,9 @@ namespace RandomNumberGame
                 }
 
                 var strMaxTryCount = TbxMaxTryCount.Text;
-                int maxTryCount;
-                if (string.IsNullOrEmpty((strMaxTryCount)) || !int.TryParse(strMaxTryCount, out maxTryCount))
+                int maxTryCount = 0;
+
+                if (!string.IsNullOrEmpty((strMaxTryCount)) && !int.TryParse(strMaxTryCount, out maxTryCount))
                 {
                     MessageBox.Show("请输入正确的最大次数");
                     TbxMaxTryCount.Focus();
