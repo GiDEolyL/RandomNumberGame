@@ -14,5 +14,11 @@
     <Setting Name="MaxTryCount" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MainWindowBounds" Type="System.Windows.Rect" Scope="User">
+      <Value Profile="(Default)">50,50,800,600</Value>
+    </Setting>
+    <Setting Name="MainWindowState" Type="System.Windows.WindowState" Scope="User">
+      <Value Profile="(Default)">Normal</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

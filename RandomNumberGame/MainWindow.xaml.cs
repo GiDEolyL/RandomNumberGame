@@ -29,15 +29,40 @@ namespace RandomNumberGame
         public MainWindow()
         {
             InitializeComponent();
+            var bounds = mSettings.MainWindowBounds;
+            this.Width = bounds.Width;
+            this.Height = bounds.Height;
+            this.WindowState = mSettings.MainWindowState;
+
+            TbxMinValue.Text = mSettings.MinValue;
+            TbxMaxValue.Text = mSettings.MaxValue;
+            TbxMaxTryCount.Text = mSettings.MaxTryCount;
+            TbkResult.FontSize = mSettings.FontSize;
+
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
             this.MouseWheel += MainWindow_MouseWheel;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TbxMinValue.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("加载异常：" + ex.Message);
+            }
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
+                mSettings.MainWindowBounds = this.RestoreBounds;
+                mSettings.MainWindowState = (this.WindowState == WindowState.Minimized ? WindowState.Normal : this.WindowState);
+
                 mSettings.MinValue = TbxMinValue.Text;
                 mSettings.MaxValue = TbxMaxValue.Text;
                 mSettings.MaxTryCount = TbxMaxTryCount.Text;
@@ -70,22 +95,6 @@ namespace RandomNumberGame
             catch (Exception ex)
             {
                 MessageBox.Show("操作异常：" + ex);
-            }
-        }
-
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                TbxMinValue.Text = mSettings.MinValue;
-                TbxMaxValue.Text = mSettings.MaxValue;
-                TbxMaxTryCount.Text = mSettings.MaxTryCount;
-                TbkResult.FontSize = mSettings.FontSize;
-                TbxMinValue.Focus();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("加载异常：" + ex.Message);
             }
         }
 
