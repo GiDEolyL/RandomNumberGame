@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="0">
+        <StackPanel x:Name="PanelStartPlay" Orientation="Horizontal" Margin="0">
             <TextBlock Text="最小数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>
             <TextBox x:Name="TbxMinValue" Style="{StaticResource TextBoxStyle1}" Width="80"></TextBox>
             <TextBlock Text="最大数：" Style="{StaticResource TextBlockStyle2}"></TextBlock>

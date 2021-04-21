@@ -79,6 +79,7 @@ namespace RandomNumberGame
                 _tryCount = 0;
                 PanelInput.IsEnabled = true;
                 TbxInput.Focus();
+                PanelStartPlay.IsEnabled = false;
             }
             catch (Exception ex)
             {
@@ -129,6 +130,7 @@ namespace RandomNumberGame
             {
                 TbkResult.Text = resultText + Properties.Resources.TextIsRight;
                 PanelInput.IsEnabled = false;
+                PanelStartPlay.IsEnabled = true;
             }
         }
     }
