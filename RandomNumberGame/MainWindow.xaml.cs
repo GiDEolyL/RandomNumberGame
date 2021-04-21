@@ -174,20 +174,35 @@ namespace RandomNumberGame
         private void CheckInputValue(int inputValue)
         {
             var resultText = inputValue + "：";
-            if (inputValue > _randomNumber)
+            _tryCount++;
+            if (inputValue == _randomNumber)
             {
-                TbkResult.Text = resultText + Properties.Resources.TextTooBig;
-            }
-            else if (inputValue < _randomNumber)
-            {
-                TbkResult.Text = resultText + Properties.Resources.TextTooSmall;
+                TbkResult.Text = resultText + Properties.Resources.TextIsRight;
+                GameEnd();
             }
             else
             {
-                TbkResult.Text = resultText + Properties.Resources.TextIsRight;
-                PanelInput.IsEnabled = false;
-                PanelStartPlay.IsEnabled = true;
+                if (inputValue > _randomNumber)
+                {
+                    TbkResult.Text = resultText + Properties.Resources.TextTooBig;
+                }
+                else if (inputValue < _randomNumber)
+                {
+                    TbkResult.Text = resultText + Properties.Resources.TextTooSmall;
+                }
+
+                if (_maxTryCount > 0 && _tryCount >= _maxTryCount)
+                {
+                    MessageBox.Show("超出最大次数");
+                    GameEnd();
+                }
             }
+        }
+
+        private void GameEnd()
+        {
+            PanelInput.IsEnabled = false;
+            PanelStartPlay.IsEnabled = true;
         }
     }
 }
